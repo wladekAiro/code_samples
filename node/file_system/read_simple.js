@@ -7,3 +7,4 @@ fs.readFile('target.txt', (err,data) => {
     }
     console.log(data.toString());
 });
+
