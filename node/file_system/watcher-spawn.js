@@ -13,4 +13,4 @@ fs.watch(filename, () => {
     ls.stdout.pipe(process.stdout);
 });
 
-console.log(' Now watching ${filename} for changes .... ');
+console.log(` Now watching ${filename} for changes .... `);
