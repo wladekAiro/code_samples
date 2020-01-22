@@ -12,7 +12,6 @@ net.createServer(connection => {
     // Reporting
     console.log(' Subscriber connected ');
     connection.write(` now watching ${fileName} for changes ... \n`);
-
     //Watcher setup
     const watcher = fs.watch(fileName, () => connection.write(` File changed: ${new Date()} \n`));
 
