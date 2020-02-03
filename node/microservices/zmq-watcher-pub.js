@@ -17,7 +17,7 @@ fs.watch(fileName,() => {
 });
 
 //listen to tcp port 60400
-publisher.listen('tcp://*:60400', err => {
+publisher.bind('tcp://*:60400', err => {
     if (err){
         throw err;
     }
