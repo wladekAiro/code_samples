@@ -25,3 +25,14 @@ responder.on('message', data => {
         ));
     });
 });
+
+//Listening to tcp port 60401
+responder.bind('tcp://127.0.0.1:60401', onerror => {
+    console.log('Listening for ZMQ requesters... ')
+});
+
+//Close the responder when the node process ends
+process.on('SIGINT', () => {
+    console.log(' Shutting down ... ');
+    responder.close();
+});
