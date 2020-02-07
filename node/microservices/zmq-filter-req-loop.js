@@ -16,7 +16,7 @@ requester.connect('tcp://127.0.0.1:60401');
 
 //Send a request for content
 
-for (let i = 0; i < 5; i++) {
+for (let i = 1; i <= 5; i++) {
     console.log(`Sending request ${i} for ${filename}`);
     requester.send(JSON.stringify({path: filename}));
 }
