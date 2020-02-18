@@ -3,7 +3,7 @@
 const fs = require('fs');
 const zmq = require('zeromq');
 
-//Socket to respond client requests.
+//Socket to respond to client requests.
 const responder = zmq.socket('rep');
 
 //Handle incoming requests
