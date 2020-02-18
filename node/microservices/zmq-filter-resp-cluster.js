@@ -6,10 +6,10 @@ const zmq = require('zeromq');
 
 const numWorkers = require('os').cpus().length;
 
-if (cluster.isMaster){
+if (cluster.isMaster) {
     //Master process creates ROUTER and DEALER sockets and binds endpoints;
     const router = zmq.socket('router').bind('tcp://127.0.0.1:60401');
-    const dealer  = zmq.socket('dealer').bind('tcp://filer-dealer.ipc');
+    const dealer = zmq.socket('dealer').bind('tcp://filer-dealer.ipc');
 
     //Forward messages between the router and dealer
     router.on('message', (...frames) => dealer.send(frames));
@@ -19,9 +19,28 @@ if (cluster.isMaster){
     cluster.on('online', worker => console.log(` Worker ${worker.process.pid} is online`));
 
     //Fork a worker process for each
-    for (let i = 0; i < numWorkers; i++){
+    for (let i = 0; i < numWorkers; i++) {
         cluster.fork();
     }
-}else {
+} else {
+    //Worker processes create a REP socket and connect to the dealer
+    const responder = zmq.socket('rep').connect('ipc://filer-dealer.ipc');
 
+    responder.on('message', data => {
+        //Parse incoming messages
+        const request = JSON.parse(data);
+        console.log(`${process.pid} received request for : ${request.path}`);
+
+        //Read the file and respond with content
+        fs.readFile(request.path, (err, content) => {
+            console.log(`${process.pid} sending response`);
+            responder.send(JSON.stringify({
+                content: content.toString(),
+                timestamp: Date.now(),
+                pid: process.pid
+            }));
+        });
+    });
 }
+
+
