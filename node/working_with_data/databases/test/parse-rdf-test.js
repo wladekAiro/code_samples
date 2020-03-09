@@ -12,5 +12,10 @@ mocha.describe('parseRDF', () => {
     mocha.it('should should be a function', () => {
         expect(parseRDF).to.be.a('function');
     });
+
+    mocha.it('should parse RDF content', () => {
+        const book = parseRDF(rdf);
+        expect(book).to.be.an('object');
+    });
 });
 
