@@ -1,5 +1,9 @@
 'use strict';
 
-module.exports = rdf => {};
+module.exports = rdf => {
+    const book = {};
+
+    return book;
+};
 
 
